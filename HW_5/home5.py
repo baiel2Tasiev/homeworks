@@ -1,24 +1,25 @@
-import random
+from decouple import config
 
-numbers = []
-for i in range(0, 31):
-    numbers.append(i)
-my_number = input("Введите ваше число: ")
+def start_game():
+    massiv = [1,2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,30]
+    luck = random.choice(massiv)
+    num = int(input("Введите число от 1 до 30: "))
+    bid = int(input("Сделайте ставку: "))
+    MY_MONEY = config("MY_MONEY", cast=int)
 
-class Casino:
-    def __init__(self, my_money) -> None:
-        self.my_money = my_money
+    if num == luck:
+        MY_MONEY += bid * 2
+        print(f"Вы выиграли ваш")
+    else:
+        MY_MONEY -= bid
+        print("Вы проиграли")
+    
 
-    def __str__(self) -> str:
-        return {self.my_money}
-
-    def casino(self):
-        global numbers
-        random_number = random.choice(numbers[::-1])
-        global my_number
-        if my_number == random_number:
-            self.my_money * 2
-            print("Вы выиграли x2!!!")
-        elif self.my_money != random_number:
-            self.my_money * 0
-            print("Вы проиграли ваши деньги")
+    print("Хотите ли вы сыграть еще?\n Если да то отправьте + \n Если нет то отправьте - ")
+    a = input(": ")
+    if a == "+":
+        start_game()
+    elif a == "-":
+        print(f"У вас осталось {MY_MONEY} денег")
+    else:
+        a = input("Повторяем ДА это + \nНЕТ это -\n ")
